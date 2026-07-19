@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinnamon Desktop Preview — Linux Mint</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="desktop" class="desktop" aria-label="Cinnamon desktop preview">
+    <div class="wallpaper" role="presentation"></div>
+
+    <!-- Desktop icons (nemo-desktop) -->
+    <div class="desktop-icons" id="desktop-icons" aria-label="Desktop icons">
+      <button type="button" class="desk-icon" data-place="home" title="Home">
+        <img src="assets/places/user-home.png" alt="" draggable="false" />
+        <span>Home</span>
+      </button>
+      <button type="button" class="desk-icon" data-place="computer" title="Computer">
+        <img src="assets/places/drive-harddisk.png" alt="" draggable="false" />
+        <span>Computer</span>
+      </button>
+      <button type="button" class="desk-icon" data-place="trash" title="Trash">
+        <img src="assets/places/user-trash.png" alt="" draggable="false" />
+        <span>Trash</span>
+      </button>
+    </div>
+
+    <!-- Application menu (menu@cinnamon.org) -->
+    <div class="app-menu" id="app-menu" role="dialog" aria-label="Menu" hidden>
+      <div class="app-menu-panel">
+        <!-- Left sidebar: favorites + system -->
+        <aside class="appmenu-sidebar" aria-label="Favorites">
+          <div class="appmenu-favs" id="menu-favorites">
+            <!-- filled by JS -->
+          </div>
+          <div class="appmenu-system" id="menu-system">
+            <button type="button" class="appmenu-system-btn appmenu-system-lock" title="Lock Screen" aria-label="Lock Screen">
+              <img src="assets/status/lock-symbolic.svg" alt="" draggable="false" />
+            </button>
+            <button type="button" class="appmenu-system-btn appmenu-system-logout" title="Logout" aria-label="Logout">
+              <img src="assets/status/logout-symbolic.svg" alt="" draggable="false" />
+            </button>
+            <button type="button" class="appmenu-system-btn appmenu-system-shutdown" title="Quit" aria-label="Quit">
+              <img src="assets/status/power-symbolic.svg" alt="" draggable="false" />
+            </button>
+          </div>
+        </aside>
+
+        <!-- Main column: search + categories + apps -->
+        <div class="appmenu-main">
+          <div class="appmenu-search-box">
+            <input
+              type="search"
+              id="menu-search"
+              class="appmenu-search"
+              placeholder="Type to search…"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Search applications"
+            />
+            <img class="appmenu-search-icon sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
+          </div>
+
+          <div class="appmenu-body">
+            <div class="appmenu-categories" id="menu-categories" role="list" aria-label="Categories">
+              <!-- filled by JS -->
+            </div>
+            <div class="appmenu-apps-scroll">
+              <div class="appmenu-apps" id="menu-apps" role="list" aria-label="Applications">
+                <!-- filled by JS -->
+              </div>
+              <p class="appmenu-empty" id="menu-empty" hidden>No results found</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar applet popover -->
+    <div class="calendar-popover" id="calendar-popover" role="dialog" aria-label="Calendar" hidden>
+      <div class="cal-today-header">
+        <div class="cal-today-day" id="cal-weekday">Saturday</div>
+        <div class="cal-today-date" id="cal-full-date">18 July 2026</div>
+      </div>
+      <div class="cal-month-nav">
+        <button type="button" class="cal-nav-btn" id="cal-prev" aria-label="Previous month">‹</button>
+        <span class="cal-month-label" id="cal-month-label">July 2026</span>
+        <button type="button" class="cal-nav-btn" id="cal-next" aria-label="Next month">›</button>
+      </div>
+      <div class="cal-weekdays" aria-hidden="true">
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-events">
+        <div class="cal-events-title">Events</div>
+        <div class="cal-events-empty">No Events</div>
+      </div>
+    </div>
+
+    <!-- Sound applet popover -->
+    <div class="sound-popover" id="sound-popover" role="dialog" aria-label="Sound" hidden>
+      <div class="sound-row">
+        <img class="sym sound-icon" src="assets/status/audio-volume-medium-symbolic.svg" alt="" draggable="false" />
+        <input type="range" class="sound-slider" id="volume-slider" min="0" max="100" value="58" aria-label="Volume" />
+        <span class="sound-pct" id="volume-pct">58%</span>
+      </div>
+      <div class="sound-sep"></div>
+      <button type="button" class="sound-menu-item">Sound Settings</button>
+    </div>
+
+    <!-- Network applet popover (simple) -->
+    <div class="net-popover" id="net-popover" role="dialog" aria-label="Network" hidden>
+      <div class="net-header">Wired connection</div>
+      <div class="net-status">
+        <img src="assets/status/network-wired-symbolic.svg" class="sym" alt="" draggable="false" />
+        <div>
+          <div class="net-name">Wired</div>
+          <div class="net-sub">Connected</div>
+        </div>
+      </div>
+      <div class="sound-sep"></div>
+      <button type="button" class="sound-menu-item">Network Settings</button>
+    </div>
+
+    <!-- Power applet popover -->
+    <div class="power-popover" id="power-popover" role="menu" aria-label="Power" hidden>
+      <button type="button" class="power-item" role="menuitem">
+        <img src="assets/status/lock-symbolic.svg" alt="" draggable="false" />
+        <span>Lock Screen</span>
+      </button>
+      <button type="button" class="power-item" role="menuitem">
+        <img src="assets/status/logout-symbolic.svg" alt="" draggable="false" />
+        <span>Log Out…</span>
+      </button>
+      <div class="sound-sep"></div>
+      <button type="button" class="power-item" role="menuitem">
+        <img src="assets/status/power-symbolic.svg" alt="" draggable="false" />
+        <span>Shut Down…</span>
+      </button>
+    </div>
+
+    <!-- Nemo (Files) window -->
+    <div class="nemo-window" id="nemo-window" role="dialog" aria-label="Home" hidden>
+      <header class="nemo-titlebar">
+        <div class="nemo-titlebar-left">
+          <img class="nemo-title-icon" src="assets/places/user-home.png" alt="" draggable="false" />
+          <span class="nemo-title" id="nemo-title">Home</span>
+        </div>
+        <div class="nemo-window-controls">
+          <button type="button" class="nemo-wc nemo-min" title="Minimize" aria-label="Minimize"></button>
+          <button type="button" class="nemo-wc nemo-max" title="Maximize" aria-label="Maximize"></button>
+          <button type="button" class="nemo-wc nemo-close" id="nemo-close" title="Close" aria-label="Close"></button>
+        </div>
+      </header>
+
+      <div class="nemo-menubar" aria-label="Menu bar">
+        <button type="button" class="nemo-menu-btn">File</button>
+        <button type="button" class="nemo-menu-btn">Edit</button>
+        <button type="button" class="nemo-menu-btn">View</button>
+        <button type="button" class="nemo-menu-btn">Go</button>
+        <button type="button" class="nemo-menu-btn">Bookmarks</button>
+        <button type="button" class="nemo-menu-btn">Help</button>
+      </div>
+
+      <div class="nemo-toolbar">
+        <div class="nemo-toolbar-group">
+          <button type="button" class="nemo-tb-btn" id="nemo-back" title="Back" aria-label="Back" disabled>
+            <img class="sym" src="assets/actions/go-previous-symbolic.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="nemo-tb-btn" id="nemo-forward" title="Forward" aria-label="Forward" disabled>
+            <img class="sym" src="assets/actions/go-next-symbolic.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="nemo-tb-btn" id="nemo-up" title="Up" aria-label="Parent folder" disabled>
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 3.2 2.5 8.7l1.1 1.1L7.2 5.9V13h1.6V5.9l3.6 3.9 1.1-1.1z"/></svg>
+          </button>
+          <button type="button" class="nemo-tb-btn" id="nemo-refresh" title="Reload" aria-label="Reload">
+            <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M13.5 8A5.5 5.5 0 1 1 8 2.5V1l3 2.5L8 6V4.5A3.5 3.5 0 1 0 11.5 8h2z"/></svg>
+          </button>
+        </div>
+
+        <div class="nemo-pathbar" id="nemo-pathbar" title="Current location">
+          <button type="button" class="nemo-crumb" data-path="home">
+            <img src="assets/places/user-home.png" alt="" draggable="false" />
+            <span id="nemo-path-label">Home</span>
+          </button>
+        </div>
+
+        <div class="nemo-toolbar-group">
+          <button type="button" class="nemo-tb-btn" id="nemo-search-btn" title="Search" aria-label="Search" aria-pressed="false">
+            <img class="sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="nemo-tb-btn active" id="nemo-view-icons" title="Icon View" aria-label="Icon View" aria-pressed="true">
+            <img class="sym" src="assets/actions/view-grid-symbolic.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="nemo-tb-btn" id="nemo-view-list" title="List View" aria-label="List View" aria-pressed="false">
+            <img class="sym" src="assets/actions/view-list-symbolic.svg" alt="" draggable="false" />
+          </button>
+        </div>
+      </div>
+
+      <div class="nemo-body">
+        <aside class="nemo-sidebar" id="nemo-sidebar" aria-label="Places">
+          <!-- filled by JS -->
+        </aside>
+        <div class="nemo-main">
+          <div class="nemo-search-bar" id="nemo-search-bar" hidden>
+            <img class="sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
+            <input type="search" id="nemo-search-input" class="nemo-search-input" placeholder="Search" autocomplete="off" spellcheck="false" />
+          </div>
+          <div class="nemo-content view-icons" id="nemo-content" role="list">
+            <div class="nemo-list-header" aria-hidden="true">
+              <span></span>
+              <span>Name</span>
+              <span>Size</span>
+              <span>Modified</span>
+            </div>
+            <!-- items filled by JS -->
+          </div>
+          <footer class="nemo-statusbar">
+            <span id="nemo-status">8 items</span>
+            <span class="nemo-status-free">Free space: 128.4 GB</span>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom panel -->
+    <footer class="panel" id="panel" role="toolbar" aria-label="Panel">
+      <div class="panel-left">
+        <button type="button" class="panel-menu-btn" id="menu-btn" aria-expanded="false" aria-controls="app-menu" title="Menu">
+          <img src="assets/status/lm-menu-logo.png" alt="" class="menu-logo" draggable="false" />
+        </button>
+
+        <div class="panel-launchers" id="panel-launchers" aria-label="Pinned applications">
+          <button type="button" class="panel-app" data-app="files" id="panel-files" title="Files">
+            <img src="assets/apps/nemo.png" alt="" draggable="false" />
+            <span class="panel-app-indicator" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="panel-app" data-app="firefox" title="Firefox">
+            <img src="assets/apps/firefox.svg" alt="" draggable="false" />
+          </button>
+          <button type="button" class="panel-app" data-app="terminal" title="Terminal">
+            <img src="assets/apps/terminal.svg" alt="" draggable="false" />
+          </button>
+        </div>
+
+        <div class="window-list" id="window-list" aria-label="Open windows">
+          <!-- running windows injected by JS -->
+        </div>
+      </div>
+
+      <div class="panel-right">
+        <button type="button" class="panel-applet" id="net-btn" title="Network" aria-expanded="false" aria-controls="net-popover">
+          <img class="sym" src="assets/status/network-wired-symbolic.svg" alt="" draggable="false" />
+        </button>
+        <button type="button" class="panel-applet" id="sound-btn" title="Sound" aria-expanded="false" aria-controls="sound-popover">
+          <img class="sym" src="assets/status/audio-volume-medium-symbolic.svg" alt="" draggable="false" />
+        </button>
+        <button type="button" class="panel-applet" id="power-btn" title="Power" aria-expanded="false" aria-controls="power-popover">
+          <img class="sym" src="assets/status/system-shutdown-symbolic.svg" alt="" draggable="false" />
+        </button>
+        <button type="button" class="panel-applet panel-clock" id="clock-btn" title="Calendar" aria-expanded="false" aria-controls="calendar-popover">
+          <span id="clock-text">Sat 00:00</span>
+        </button>
+        <button type="button" class="panel-applet panel-corner" id="show-desktop-btn" title="Show desktop" aria-label="Show desktop">
+          <span class="corner-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
