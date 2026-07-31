@@ -30,20 +30,38 @@
       </button>
     </div>
 
-    <!-- Application menu (menu@cinnamon.org) -->
+    <!-- Application menu (menu@cinnamon.org) — Cinnamon 6 layout -->
     <div class="app-menu" id="app-menu" role="dialog" aria-label="Menu" hidden>
       <div class="app-menu-panel">
-        <!-- Left sidebar: favorites + system -->
-        <aside class="appmenu-sidebar" aria-label="Favorites">
-          <div class="appmenu-favs" id="menu-favorites">
-            <!-- filled by JS -->
+        <!-- Left sidebar: user + places + favorites + session -->
+        <aside class="appmenu-sidebar" aria-label="User and favorites">
+          <div class="appmenu-user">
+            <div class="appmenu-avatar" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="48" height="48">
+                <circle cx="24" cy="24" r="24" fill="#4a4a52"/>
+                <circle cx="24" cy="18" r="8" fill="#c8c8d0"/>
+                <path d="M8 42c2-10 10-14 16-14s14 4 16 14" fill="#c8c8d0"/>
+              </svg>
+            </div>
+            <div class="appmenu-username">Leon</div>
           </div>
+
+          <div class="appmenu-sidebar-scroll">
+            <div class="appmenu-places" id="menu-places">
+              <!-- filled by JS: Desktop, Downloads -->
+            </div>
+            <div class="appmenu-sidebar-sep" aria-hidden="true"></div>
+            <div class="appmenu-favs" id="menu-favorites">
+              <!-- filled by JS -->
+            </div>
+          </div>
+
           <div class="appmenu-system" id="menu-system">
             <button type="button" class="appmenu-system-btn appmenu-system-lock" title="Lock Screen" aria-label="Lock Screen">
-              <img src="assets/status/lock-symbolic.svg" alt="" draggable="false" />
+              <img class="sym" src="assets/status/lock-symbolic.svg" alt="" draggable="false" />
             </button>
             <button type="button" class="appmenu-system-btn appmenu-system-logout" title="Logout" aria-label="Logout">
-              <img src="assets/status/logout-symbolic.svg" alt="" draggable="false" />
+              <img class="sym" src="assets/status/logout-symbolic.svg" alt="" draggable="false" />
             </button>
             <button type="button" class="appmenu-system-btn appmenu-system-shutdown" title="Quit" aria-label="Quit">
               <img src="assets/status/power-symbolic.svg" alt="" draggable="false" />
@@ -51,21 +69,8 @@
           </div>
         </aside>
 
-        <!-- Main column: search + categories + apps -->
+        <!-- Main: categories | apps, search along bottom -->
         <div class="appmenu-main">
-          <div class="appmenu-search-box">
-            <input
-              type="search"
-              id="menu-search"
-              class="appmenu-search"
-              placeholder="Type to search…"
-              autocomplete="off"
-              spellcheck="false"
-              aria-label="Search applications"
-            />
-            <img class="appmenu-search-icon sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
-          </div>
-
           <div class="appmenu-body">
             <div class="appmenu-categories" id="menu-categories" role="list" aria-label="Categories">
               <!-- filled by JS -->
@@ -76,6 +81,19 @@
               </div>
               <p class="appmenu-empty" id="menu-empty" hidden>No results found</p>
             </div>
+          </div>
+
+          <div class="appmenu-search-box">
+            <input
+              type="search"
+              id="menu-search"
+              class="appmenu-search"
+              placeholder=""
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Search applications"
+            />
+            <img class="appmenu-search-icon sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
           </div>
         </div>
       </div>
@@ -102,46 +120,148 @@
       </div>
     </div>
 
+    <!-- LocalSend tray menu -->
+    <div class="tray-menu" id="localsend-popover" role="menu" aria-label="LocalSend" hidden>
+      <button type="button" class="tray-menu-item" role="menuitem">Open</button>
+      <button type="button" class="tray-menu-item" role="menuitem">Quit LocalSend</button>
+    </div>
+
+    <!-- Bluetooth tray menu -->
+    <div class="tray-menu tray-menu-wide" id="bluetooth-popover" role="menu" aria-label="Bluetooth" hidden>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <img class="panel-emblem" src="assets/status/popover/bluetooth-active.png" alt="" draggable="false" />
+        <span>Turn Bluetooth Off</span>
+      </button>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <span class="tray-menu-glyph">⌕</span>
+        <span>Make Discoverable</span>
+      </button>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <span class="tray-menu-glyph">✈</span>
+        <span>Send Files to Device…</span>
+      </button>
+      <div class="sound-sep"></div>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <img class="panel-emblem" src="assets/status/popover/bluetooth-active.png" alt="" draggable="false" />
+        <span>Devices…</span>
+      </button>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <img class="panel-emblem" src="assets/status/popover/bluetooth-active.png" alt="" draggable="false" />
+        <span>Adapters…</span>
+      </button>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <span class="tray-menu-glyph">☰</span>
+        <span>Local Services…</span>
+      </button>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <span class="tray-menu-glyph">🧩</span>
+        <span>Plugins</span>
+      </button>
+      <div class="sound-sep"></div>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <span class="tray-menu-glyph">ℹ</span>
+        <span>Help</span>
+      </button>
+      <button type="button" class="tray-menu-item" role="menuitem">
+        <span class="tray-menu-glyph">⏻</span>
+        <span>Exit</span>
+      </button>
+    </div>
+
     <!-- Sound applet popover -->
     <div class="sound-popover" id="sound-popover" role="dialog" aria-label="Sound" hidden>
       <div class="sound-row">
-        <img class="sym sound-icon" src="assets/status/audio-volume-medium-symbolic.svg" alt="" draggable="false" />
-        <input type="range" class="sound-slider" id="volume-slider" min="0" max="100" value="58" aria-label="Volume" />
-        <span class="sound-pct" id="volume-pct">58%</span>
+        <img class="panel-emblem sound-icon" src="assets/status/popover/audio-volume-medium.png" alt="" draggable="false" />
+        <input type="range" class="sound-slider" id="volume-slider" min="0" max="100" value="40" aria-label="Volume" />
       </div>
-      <div class="sound-sep"></div>
-      <button type="button" class="sound-menu-item">Sound Settings</button>
+      <button type="button" class="sound-menu-item sound-settings-link">Sound Settings</button>
     </div>
 
-    <!-- Network applet popover (simple) -->
+    <!-- Network applet popover -->
     <div class="net-popover" id="net-popover" role="dialog" aria-label="Network" hidden>
-      <div class="net-header">Wired connection</div>
-      <div class="net-status">
-        <img src="assets/status/network-wired-symbolic.svg" class="sym" alt="" draggable="false" />
-        <div>
-          <div class="net-name">Wired</div>
-          <div class="net-sub">Connected</div>
-        </div>
+      <div class="net-wired-row">
+        <span class="net-row-label">
+          <img class="panel-emblem" src="assets/status/popover/network-wired.png" alt="" draggable="false" />
+          Wired
+        </span>
+        <span class="net-row-meta">cable unplugged</span>
+      </div>
+      <div class="net-wireless-head">
+        <span class="net-row-label">Wireless</span>
+        <button type="button" class="cs-switch net-wifi-switch" role="switch" aria-checked="true" id="net-wifi-toggle" aria-label="Wireless"></button>
+      </div>
+      <div class="net-wifi-list">
+        <button type="button" class="net-wifi-item active">
+          <span class="net-wifi-radio" aria-hidden="true"></span>
+          <span class="net-wifi-name">Home-Network</span>
+          <span class="net-wifi-pct">100%</span>
+          <img class="panel-emblem" src="assets/status/popover/wifi-excellent.png" alt="" draggable="false" />
+        </button>
+        <button type="button" class="net-wifi-item">
+          <span class="net-wifi-radio empty" aria-hidden="true"></span>
+          <span class="net-wifi-name">Cafe-Guest</span>
+          <span class="net-wifi-pct">52%</span>
+          <img class="panel-emblem" src="assets/status/popover/wifi-ok.png" alt="" draggable="false" />
+        </button>
+        <button type="button" class="net-wifi-item">
+          <span class="net-wifi-radio empty" aria-hidden="true"></span>
+          <span class="net-wifi-name">Office-WiFi</span>
+          <span class="net-wifi-pct">44%</span>
+          <img class="panel-emblem" src="assets/status/popover/wifi-ok.png" alt="" draggable="false" />
+        </button>
+        <button type="button" class="net-wifi-item">
+          <span class="net-wifi-radio empty" aria-hidden="true"></span>
+          <span class="net-wifi-name">Neighbor-5G</span>
+          <span class="net-wifi-pct">35%</span>
+          <img class="panel-emblem" src="assets/status/popover/wifi-weak.png" alt="" draggable="false" />
+        </button>
+        <button type="button" class="net-wifi-item">
+          <span class="net-wifi-radio empty" aria-hidden="true"></span>
+          <span class="net-wifi-name">IoT-Hub</span>
+          <span class="net-wifi-pct">24%</span>
+          <img class="panel-emblem" src="assets/status/popover/wifi-weak.png" alt="" draggable="false" />
+        </button>
+        <button type="button" class="net-wifi-item net-wifi-more">
+          <span class="net-wifi-radio empty" aria-hidden="true"></span>
+          <span class="net-wifi-name">More</span>
+          <span class="net-wifi-pct"></span>
+          <span class="net-more-arrow">›</span>
+        </button>
       </div>
       <div class="sound-sep"></div>
       <button type="button" class="sound-menu-item">Network Settings</button>
+      <button type="button" class="sound-menu-item">Network Connections</button>
     </div>
 
-    <!-- Power applet popover -->
-    <div class="power-popover" id="power-popover" role="menu" aria-label="Power" hidden>
-      <button type="button" class="power-item" role="menuitem">
-        <img src="assets/status/lock-symbolic.svg" alt="" draggable="false" />
-        <span>Lock Screen</span>
-      </button>
-      <button type="button" class="power-item" role="menuitem">
-        <img src="assets/status/logout-symbolic.svg" alt="" draggable="false" />
-        <span>Log Out…</span>
-      </button>
+    <!-- Battery / power applet popover -->
+    <div class="power-popover" id="power-popover" role="dialog" aria-label="Power" hidden>
+      <div class="batt-status-row">
+        <img class="panel-emblem" src="assets/status/popover/battery-charged.png" alt="" draggable="false" />
+        <div>
+          <div class="batt-title">Battery 100%</div>
+          <div class="batt-sub">Fully charged</div>
+        </div>
+      </div>
+      <div class="batt-brightness-row">
+        <img class="panel-emblem" src="assets/status/popover/display-brightness.png" alt="" draggable="false" />
+        <input type="range" class="sound-slider batt-brightness" id="brightness-slider" min="0" max="100" value="90" aria-label="Brightness" />
+      </div>
+      <div class="batt-profiles" role="radiogroup" aria-label="Power profile">
+        <button type="button" class="batt-profile active" data-profile="saver" role="radio" aria-checked="true">
+          <img class="panel-emblem" src="assets/status/popover/power-saver.png" alt="" draggable="false" />
+          <span>Power Saver</span>
+        </button>
+        <button type="button" class="batt-profile" data-profile="balanced" role="radio" aria-checked="false">
+          <img class="panel-emblem" src="assets/status/popover/power-balanced.png" alt="" draggable="false" />
+          <span>Balanced</span>
+        </button>
+        <button type="button" class="batt-profile" data-profile="performance" role="radio" aria-checked="false">
+          <img class="panel-emblem" src="assets/status/popover/power-performance.png" alt="" draggable="false" />
+          <span>Performance</span>
+        </button>
+      </div>
       <div class="sound-sep"></div>
-      <button type="button" class="power-item" role="menuitem">
-        <img src="assets/status/power-symbolic.svg" alt="" draggable="false" />
-        <span>Shut Down…</span>
-      </button>
+      <button type="button" class="sound-menu-item">Power Settings</button>
     </div>
 
     <!-- Nemo (Files) window -->
@@ -151,10 +271,16 @@
           <img class="nemo-title-icon" src="assets/places/user-home.png" alt="" draggable="false" />
           <span class="nemo-title" id="nemo-title">Home</span>
         </div>
-        <div class="nemo-window-controls">
-          <button type="button" class="nemo-wc nemo-min" title="Minimize" aria-label="Minimize"></button>
-          <button type="button" class="nemo-wc nemo-max" title="Maximize" aria-label="Maximize"></button>
-          <button type="button" class="nemo-wc nemo-close" id="nemo-close" title="Close" aria-label="Close"></button>
+        <div class="nemo-window-controls mint-frame-controls">
+          <button type="button" class="mint-wc mint-min" title="Minimize" aria-label="Minimize" id="nemo-min">
+            <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="currentColor" d="M3 8h10v1.5H3z"/></svg>
+          </button>
+          <button type="button" class="mint-wc mint-max" title="Maximize" aria-label="Maximize" id="nemo-max">
+            <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M3.5 3.5h9v9h-9z"/></svg>
+          </button>
+          <button type="button" class="mint-wc mint-close" id="nemo-close" title="Close" aria-label="Close">
+            <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="currentColor" d="M4.2 3.5 3.5 4.2 7.3 8l-3.8 3.8.7.7L8 8.7l3.8 3.8.7-.7L8.7 8l3.8-3.8-.7-.7L8 7.3z"/></svg>
+          </button>
         </div>
       </header>
 
@@ -229,6 +355,111 @@
       </div>
     </div>
 
+    <!--
+      Software Manager — GNOME App Center layout (same as GNOME mockup),
+      with Mint-Y window controls (min / max / green close).
+    -->
+    <div class="software-window mint-framed" id="software-window" role="dialog" aria-label="Software Manager" hidden>
+      <div class="mint-frame-controls">
+        <button type="button" class="mint-wc mint-min" data-win="software" title="Minimize" aria-label="Minimize">
+          <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="currentColor" d="M3 8h10v1.5H3z"/></svg>
+        </button>
+        <button type="button" class="mint-wc mint-max" data-win="software" title="Maximize" aria-label="Maximize">
+          <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M3.5 3.5h9v9h-9z"/></svg>
+        </button>
+        <button type="button" class="mint-wc mint-close" id="sw-close" title="Close" aria-label="Close">
+          <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="currentColor" d="M4.2 3.5 3.5 4.2 7.3 8l-3.8 3.8.7.7L8 8.7l3.8 3.8.7-.7L8.7 8l3.8-3.8-.7-.7L8 7.3z"/></svg>
+        </button>
+      </div>
+
+      <div class="sw-shell" id="sw-shell">
+        <header class="sw-header">
+          <button type="button" class="sw-icon-btn" id="sw-search-btn" title="Search" aria-label="Search" aria-pressed="false">
+            <img class="sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
+          </button>
+          <nav class="sw-switcher" id="sw-switcher" role="tablist" aria-label="App Center sections">
+            <button type="button" class="sw-switcher-btn active" role="tab" aria-selected="true" data-sw-tab="explore">
+              <img class="sym" src="assets/software/software-explore-symbolic.svg" alt="" draggable="false" />
+              <span>Explore</span>
+            </button>
+            <button type="button" class="sw-switcher-btn" role="tab" aria-selected="false" data-sw-tab="installed">
+              <img class="sym" src="assets/software/software-installed-symbolic.svg" alt="" draggable="false" />
+              <span>Installed</span>
+            </button>
+            <button type="button" class="sw-switcher-btn" role="tab" aria-selected="false" data-sw-tab="updates">
+              <img class="sym" src="assets/software/software-updates-symbolic.svg" alt="" draggable="false" />
+              <span>Updates</span>
+            </button>
+          </nav>
+          <div class="sw-header-end">
+            <button type="button" class="sw-icon-btn" id="sw-menu-btn" title="Main Menu" aria-label="Main Menu" aria-haspopup="true">
+              <img class="sym" src="assets/settings/open-menu-symbolic.svg" alt="" draggable="false" />
+            </button>
+          </div>
+        </header>
+        <div class="sw-search-bar" id="sw-search-bar" hidden>
+          <img class="sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
+          <input type="search" class="sw-search-input" id="sw-search-input" placeholder="Search apps" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="sw-menu" id="sw-menu" role="menu" hidden>
+          <button type="button" class="sw-menu-item" role="menuitem" data-sw-action="repos">Software Repositories</button>
+          <button type="button" class="sw-menu-item" role="menuitem" data-sw-action="about">About Software Manager</button>
+        </div>
+        <div class="sw-body" id="sw-body"></div>
+      </div>
+
+      <div class="sw-details" id="sw-details" hidden>
+        <header class="sw-header sw-details-header">
+          <button type="button" class="sw-icon-btn" id="sw-details-back" title="Go back" aria-label="Go back">
+            <img class="sym" src="assets/actions/go-previous-symbolic.svg" alt="" draggable="false" />
+          </button>
+          <span class="sw-details-title" id="sw-details-title"></span>
+          <div class="sw-header-end"></div>
+        </header>
+        <div class="sw-details-scroll" id="sw-details-body"></div>
+      </div>
+
+      <div class="sw-category" id="sw-category" hidden>
+        <header class="sw-header sw-details-header">
+          <button type="button" class="sw-icon-btn" id="sw-category-back" title="Go back" aria-label="Go back">
+            <img class="sym" src="assets/actions/go-previous-symbolic.svg" alt="" draggable="false" />
+          </button>
+          <span class="sw-details-title" id="sw-category-title">Category</span>
+          <div class="sw-header-end"></div>
+        </header>
+        <div class="sw-details-scroll" id="sw-category-body"></div>
+      </div>
+    </div>
+
+    <!-- System Settings (cinnamon-settings) — layout matches live Mint screenshots -->
+    <div class="settings-window mint-framed" id="settings-window" role="dialog" aria-label="System Settings" hidden>
+      <header class="cs-titlebar">
+        <span class="cs-titlebar-spacer" aria-hidden="true"></span>
+        <span class="cs-title" id="cs-title">System Settings</span>
+        <div class="mint-frame-controls cs-titlebar-controls">
+          <button type="button" class="mint-wc mint-min" data-win="settings" title="Minimize" aria-label="Minimize">
+            <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="currentColor" d="M3 8h10v1.5H3z"/></svg>
+          </button>
+          <button type="button" class="mint-wc mint-max" data-win="settings" title="Maximize" aria-label="Maximize">
+            <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M3.5 3.5h9v9h-9z"/></svg>
+          </button>
+          <button type="button" class="mint-wc mint-close" id="cs-close" title="Close" aria-label="Close">
+            <svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path fill="currentColor" d="M4.2 3.5 3.5 4.2 7.3 8l-3.8 3.8.7.7L8 8.7l3.8 3.8.7-.7L8.7 8l3.8-3.8-.7-.7L8 7.3z"/></svg>
+          </button>
+        </div>
+      </header>
+      <div class="cs-toolbar" id="cs-toolbar">
+        <button type="button" class="mint-icon-btn" id="cs-back" title="Back" aria-label="Back" hidden>
+          <img class="sym" src="assets/actions/go-previous-symbolic.svg" alt="" draggable="false" />
+        </button>
+        <div class="cs-search-wrap">
+          <img class="sym" src="assets/actions/search-symbolic.svg" alt="" draggable="false" />
+          <input type="search" id="cs-search" class="cs-search" placeholder="" autocomplete="off" spellcheck="false" aria-label="Search settings" />
+        </div>
+      </div>
+      <div class="cs-body" id="cs-body"></div>
+    </div>
+
     <!-- Bottom panel -->
     <footer class="panel" id="panel" role="toolbar" aria-label="Panel">
       <div class="panel-left">
@@ -255,14 +486,24 @@
       </div>
 
       <div class="panel-right">
+        <!-- Live order: LocalSend · Bluetooth · Updates · Wi‑Fi · Volume · Battery · clock · corner -->
+        <button type="button" class="panel-applet" id="localsend-btn" title="LocalSend" aria-label="LocalSend" aria-expanded="false" aria-controls="localsend-popover">
+          <img class="panel-emblem panel-emblem-color" src="assets/status/panel-localsend.png" alt="" draggable="false" />
+        </button>
+        <button type="button" class="panel-applet" id="bluetooth-btn" title="Bluetooth Enabled" aria-label="Bluetooth" aria-expanded="false" aria-controls="bluetooth-popover">
+          <img class="panel-emblem" src="assets/status/panel-bluetooth.png" alt="" draggable="false" />
+        </button>
+        <button type="button" class="panel-applet" id="updates-btn" title="Update Manager — 1 update available" aria-label="Updates">
+          <img class="panel-emblem" src="assets/status/panel-updates.png" alt="" draggable="false" />
+        </button>
         <button type="button" class="panel-applet" id="net-btn" title="Network" aria-expanded="false" aria-controls="net-popover">
-          <img class="sym" src="assets/status/network-wired-symbolic.svg" alt="" draggable="false" />
+          <img class="panel-emblem" src="assets/status/panel-network.png" alt="" draggable="false" />
         </button>
         <button type="button" class="panel-applet" id="sound-btn" title="Sound" aria-expanded="false" aria-controls="sound-popover">
-          <img class="sym" src="assets/status/audio-volume-medium-symbolic.svg" alt="" draggable="false" />
+          <img class="panel-emblem" id="sound-panel-icon" src="assets/status/panel-sound.png" alt="" draggable="false" />
         </button>
-        <button type="button" class="panel-applet" id="power-btn" title="Power" aria-expanded="false" aria-controls="power-popover">
-          <img class="sym" src="assets/status/system-shutdown-symbolic.svg" alt="" draggable="false" />
+        <button type="button" class="panel-applet" id="power-btn" title="Battery fully charged" aria-expanded="false" aria-controls="power-popover">
+          <img class="panel-emblem" src="assets/status/panel-battery.png" alt="" draggable="false" />
         </button>
         <button type="button" class="panel-applet panel-clock" id="clock-btn" title="Calendar" aria-expanded="false" aria-controls="calendar-popover">
           <span id="clock-text">Sat 00:00</span>
@@ -275,5 +516,6 @@
   </div>
 
   <script src="app.js"></script>
+  <script src="software-settings.js"></script>
 </body>
 </html>

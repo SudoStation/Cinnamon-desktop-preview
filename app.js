@@ -1,17 +1,26 @@
 /**
  * Cinnamon desktop preview — interactive shell
- * Layout modelled on Linux Mint Cinnamon + Mint-Y-Dark
+ * Layout modelled on Linux Mint Cinnamon + Mint-Y-Dark-Orange
  */
 
 /* ---------- App / category data ---------- */
 
-const FAVORITES = [
-  { id: "firefox", name: "Firefox", icon: "assets/apps/firefox.svg" },
-  { id: "software", name: "Software Manager", icon: "assets/apps/software-manager.svg" },
-  { id: "terminal", name: "Terminal", icon: "assets/apps/terminal.svg" },
-  { id: "files", name: "Files", icon: "assets/apps/nemo.png" },
+/** Menu sidebar places (above favorites) — matches live Cinnamon menu */
+const MENU_PLACES = [
+  { id: "desktop", name: "Desktop", icon: "assets/places/user-desktop.png", place: "desktop" },
+  { id: "downloads", name: "Downloads", icon: "assets/places/folder-download.png", place: "downloads" },
 ];
 
+/** Menu sidebar favorites — live system defaults */
+const FAVORITES = [
+  { id: "calculator", name: "Calculator", icon: "assets/apps/calculator.svg" },
+  { id: "calendar", name: "Calendar", icon: "assets/apps/calendar.svg" },
+  { id: "editor", name: "Text Editor", icon: "assets/mimetypes/text-x-generic.png" },
+  { id: "software", name: "Software Manager", icon: "assets/apps/software-manager.svg" },
+  { id: "settings", name: "System Settings", icon: "assets/menu/preferences-desktop.svg" },
+];
+
+/** Categories — order matches live Cinnamon 6 menu */
 const CATEGORIES = [
   { id: "all", name: "All Applications", icon: "grid" },
   { id: "accessories", name: "Accessories", icon: "assets/menu/applications-accessories.svg" },
@@ -19,9 +28,9 @@ const CATEGORIES = [
   { id: "internet", name: "Internet", icon: "assets/menu/applications-internet.svg" },
   { id: "office", name: "Office", icon: "assets/menu/applications-office.svg" },
   { id: "multimedia", name: "Sound & Video", icon: "assets/menu/applications-multimedia.svg" },
-  { id: "admin", name: "Administration", icon: "assets/menu/cs-cat-admin.svg" },
   { id: "prefs", name: "Preferences", icon: "assets/menu/preferences-desktop.svg" },
-  { id: "places", name: "Places", icon: "folder" },
+  { id: "admin", name: "Administration", icon: "assets/menu/cs-cat-admin.svg" },
+  { id: "favorites", name: "Favorites", icon: "star" },
   { id: "recent", name: "Recent Files", icon: "recent" },
 ];
 
@@ -74,6 +83,34 @@ const APPS = [
     desc: "Calendar application",
     icon: "assets/apps/calendar.svg",
     categories: ["office", "all"],
+  },
+  {
+    id: "editor",
+    name: "Text Editor",
+    desc: "Edit text files",
+    icon: "assets/mimetypes/text-x-generic.png",
+    categories: ["accessories", "all"],
+  },
+  {
+    id: "settings",
+    name: "System Settings",
+    desc: "Cinnamon desktop settings",
+    icon: "assets/menu/preferences-desktop.svg",
+    categories: ["prefs", "all"],
+  },
+  {
+    id: "a11y",
+    name: "Accessibility",
+    desc: "Configure accessibility features",
+    icon: "assets/menu/preferences-desktop.svg",
+    categories: ["prefs", "all"],
+  },
+  {
+    id: "account",
+    name: "Account details",
+    desc: "Change your user preferences and password",
+    icon: "assets/status/emblem-system.png",
+    categories: ["prefs", "all"],
   },
   {
     id: "libreoffice",
@@ -233,15 +270,22 @@ const FS = {
   },
 };
 
-const SIDEBAR_PLACES = [
-  { id: "home", label: "Home", icon: "assets/places/user-home.png" },
-  { id: "desktop", label: "Desktop", icon: "assets/places/user-desktop.png" },
-  { id: "documents", label: "Documents", icon: "assets/places/folder-documents.png" },
-  { id: "downloads", label: "Downloads", icon: "assets/places/folder-download.png" },
-  { id: "music", label: "Music", icon: "assets/places/folder-music.png" },
-  { id: "pictures", label: "Pictures", icon: "assets/places/folder-pictures.png" },
-  { id: "videos", label: "Videos", icon: "assets/places/folder-videos.png" },
-  { id: "trash", label: "Trash", icon: "assets/places/user-trash.png" },
+/** Nemo sidebar — symbolic place emblems (GTK/Nemo style, not full-color icons) */
+const NEMO_MY_COMPUTER = [
+  { id: "home", label: "Home", icon: "assets/places/user-home-symbolic.svg" },
+  { id: "desktop", label: "Desktop", icon: "assets/places/user-desktop-symbolic.svg" },
+  { id: "documents", label: "Documents", icon: "assets/places/folder-documents-symbolic.svg" },
+  { id: "music", label: "Music", icon: "assets/places/folder-music-symbolic.svg" },
+  { id: "pictures", label: "Pictures", icon: "assets/places/folder-pictures-symbolic.svg" },
+  { id: "videos", label: "Videos", icon: "assets/places/folder-videos-symbolic.svg" },
+  { id: "downloads", label: "Downloads", icon: "assets/places/folder-download-symbolic.svg" },
+  { id: "recent", label: "Recent", icon: "assets/places/document-open-recent-symbolic.svg" },
+  { id: "computer", label: "File System", icon: "assets/places/drive-harddisk-symbolic.svg" },
+  { id: "trash", label: "Trash", icon: "assets/places/user-trash-symbolic.svg" },
+];
+
+const NEMO_NETWORK = [
+  { id: "network", label: "Network", icon: "assets/places/network-workgroup-symbolic.svg" },
 ];
 
 /* ---------- DOM ---------- */
@@ -251,6 +295,7 @@ const menuBtn = document.getElementById("menu-btn");
 const appMenu = document.getElementById("app-menu");
 const menuSearch = document.getElementById("menu-search");
 const menuFavorites = document.getElementById("menu-favorites");
+const menuPlaces = document.getElementById("menu-places");
 const menuCategories = document.getElementById("menu-categories");
 const menuApps = document.getElementById("menu-apps");
 const menuEmpty = document.getElementById("menu-empty");
@@ -274,6 +319,11 @@ const netBtn = document.getElementById("net-btn");
 const netPopover = document.getElementById("net-popover");
 const powerBtn = document.getElementById("power-btn");
 const powerPopover = document.getElementById("power-popover");
+const localsendBtn = document.getElementById("localsend-btn");
+const localsendPopover = document.getElementById("localsend-popover");
+const bluetoothBtn = document.getElementById("bluetooth-btn");
+const bluetoothPopover = document.getElementById("bluetooth-popover");
+const brightnessSlider = document.getElementById("brightness-slider");
 
 const panelFiles = document.getElementById("panel-files");
 const windowList = document.getElementById("window-list");
@@ -302,7 +352,7 @@ let nemoPlace = "home";
 let nemoHistory = ["home"];
 let nemoHistIndex = 0;
 let nemoViewMode = "icons";
-let desktopHidden = false;
+// desktopHidden declared with var near OPEN_WINDOWS for cross-script access
 
 /* ---------- Clock (Cinnamon: time only by default on panel) ---------- */
 
@@ -389,28 +439,52 @@ function catIconHtml(cat) {
   if (cat.icon === "grid") {
     return `<span class="cat-glyph" aria-hidden="true">▦</span>`;
   }
+  if (cat.icon === "star") {
+    return `<img src="assets/places/starred-symbolic.svg" class="sym" alt="" draggable="false" />`;
+  }
   if (cat.icon === "folder") {
     return `<img src="assets/places/folder-documents.png" alt="" draggable="false" />`;
   }
   if (cat.icon === "recent") {
-    return `<img src="assets/places/document-open-recent-symbolic.svg" class="sym" alt="" draggable="false" />`;
+    return `<img src="assets/places/folder-recent.png" alt="" draggable="false" />`;
   }
   return `<img src="${cat.icon}" alt="" draggable="false" />`;
+}
+
+function makeSideBtn(item, onClick) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "appmenu-side-btn";
+  btn.title = item.name;
+  btn.innerHTML = `<img src="${item.icon}" alt="" draggable="false" /><span>${item.name}</span>`;
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    onClick(item);
+  });
+  return btn;
+}
+
+function renderMenuPlaces() {
+  if (!menuPlaces) return;
+  menuPlaces.innerHTML = "";
+  for (const place of MENU_PLACES) {
+    menuPlaces.appendChild(
+      makeSideBtn(place, (p) => {
+        closeMenu();
+        openNemo(p.place || "home");
+      })
+    );
+  }
 }
 
 function renderFavorites() {
   menuFavorites.innerHTML = "";
   for (const fav of FAVORITES) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "appmenu-fav-btn";
-    btn.title = fav.name;
-    btn.innerHTML = `<img src="${fav.icon}" alt="" draggable="false" />`;
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      launchApp(fav.id);
-    });
-    menuFavorites.appendChild(btn);
+    menuFavorites.appendChild(
+      makeSideBtn(fav, (f) => {
+        launchApp(f.id);
+      })
+    );
   }
 }
 
@@ -447,10 +521,19 @@ function selectCategory(id) {
 function getAppsForCategory(catId, filter = "") {
   const q = filter.trim().toLowerCase();
 
-  if (catId === "places") {
-    let list = PLACES_APPS;
-    if (q) list = list.filter((a) => a.name.toLowerCase().includes(q));
-    return list.map((a) => ({ ...a, isPlace: true }));
+  if (catId === "favorites") {
+    let list = FAVORITES.map((f) => {
+      const app = APPS.find((a) => a.id === f.id);
+      return app || { id: f.id, name: f.name, icon: f.icon, desc: "", categories: [] };
+    });
+    if (q) {
+      list = list.filter(
+        (a) =>
+          a.name.toLowerCase().includes(q) ||
+          (a.desc && a.desc.toLowerCase().includes(q))
+      );
+    }
+    return list;
   }
   if (catId === "recent") {
     let list = RECENT_FILES;
@@ -465,6 +548,9 @@ function getAppsForCategory(catId, filter = "") {
         a.name.toLowerCase().includes(q) ||
         (a.desc && a.desc.toLowerCase().includes(q))
     );
+  }
+  if (catId === "all" || q) {
+    list = [...list].sort((a, b) => a.name.localeCompare(b.name));
   }
   return list;
 }
@@ -512,12 +598,19 @@ function launchApp(id) {
     openNemo("home");
     return;
   }
+  if (id === "software") {
+    openSoftware();
+    return;
+  }
+  if (id === "settings") {
+    openSettings();
+    return;
+  }
   // Visual feedback only for other apps
   const panelApp = document.querySelector(`.panel-app[data-app="${id}"]`);
   if (panelApp) {
     panelApp.classList.add("running");
     setTimeout(() => {
-      // leave firefox/terminal as "not running" unless we want permanent pin look
       if (id !== "files") panelApp.classList.remove("running");
     }, 400);
   }
@@ -560,10 +653,14 @@ function closeApplets() {
   soundPopover.hidden = true;
   netPopover.hidden = true;
   powerPopover.hidden = true;
+  if (localsendPopover) localsendPopover.hidden = true;
+  if (bluetoothPopover) bluetoothPopover.hidden = true;
   setExpanded(clockBtn, false);
   setExpanded(soundBtn, false);
   setExpanded(netBtn, false);
   setExpanded(powerBtn, false);
+  setExpanded(localsendBtn, false);
+  setExpanded(bluetoothBtn, false);
 }
 
 function closeAll() {
@@ -587,70 +684,114 @@ function togglePopover(popover, btn) {
 
 /* ---------- Nemo ---------- */
 
-function updateWindowList() {
-  windowList.innerHTML = "";
-  if (nemoWindow.hidden) {
-    panelFiles.classList.remove("running", "active");
-    return;
-  }
-  panelFiles.classList.add("running", "active");
+/** Open app windows for the panel window-list */
+const OPEN_WINDOWS = {
+  files: {
+    el: () => nemoWindow,
+    title: () => FS[nemoPlace]?.label || "Home",
+    icon: "assets/apps/nemo.png",
+  },
+  software: {
+    el: () => document.getElementById("software-window"),
+    title: () => "Software Manager",
+    icon: "assets/apps/software-manager.svg",
+  },
+  settings: {
+    el: () => document.getElementById("settings-window"),
+    title: () => "System Settings",
+    icon: "assets/menu/preferences-desktop.svg",
+  },
+};
 
-  const item = document.createElement("button");
-  item.type = "button";
-  item.className = "window-list-item active";
-  item.innerHTML = `
-    <img src="assets/apps/nemo.png" alt="" draggable="false" />
-    <span>${FS[nemoPlace]?.label || "Home"}</span>
-  `;
-  item.addEventListener("click", (e) => {
-    e.stopPropagation();
-    // Toggle minimize simulation
-    if (nemoWindow.style.visibility === "hidden") {
-      nemoWindow.style.visibility = "";
-      item.classList.add("active");
-      panelFiles.classList.add("active");
-    } else {
-      nemoWindow.style.visibility = "hidden";
-      item.classList.remove("active");
-      panelFiles.classList.remove("active");
-    }
+// var so software-settings.js (separate classic script) can read/write it
+var focusedWindowId = null;
+var desktopHidden = false;
+
+function focusWindow(id) {
+  focusedWindowId = id;
+  Object.keys(OPEN_WINDOWS).forEach((key) => {
+    const el = OPEN_WINDOWS[key].el();
+    if (!el) return;
+    el.classList.toggle("is-focused", key === id && !el.hidden);
   });
-  windowList.appendChild(item);
+  updateWindowList();
 }
 
-function renderNemoSidebar() {
-  nemoSidebar.innerHTML = "";
+function updateWindowList() {
+  windowList.innerHTML = "";
+  if (panelFiles) panelFiles.classList.remove("running", "active");
 
-  const placesSec = document.createElement("div");
-  placesSec.className = "nemo-side-section";
-  placesSec.innerHTML = `<div class="nemo-side-label">Places</div>`;
-  for (const p of SIDEBAR_PLACES) {
+  for (const [id, meta] of Object.entries(OPEN_WINDOWS)) {
+    const el = meta.el();
+    if (!el || el.hidden) continue;
+    const minimized = el.style.visibility === "hidden";
+    const active = focusedWindowId === id && !minimized;
+
+    if (id === "files" && panelFiles) {
+      panelFiles.classList.add("running");
+      if (active) panelFiles.classList.add("active");
+    }
+
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "window-list-item" + (active ? " active" : "");
+    item.innerHTML = `
+      <img src="${meta.icon}" alt="" draggable="false" />
+      <span>${meta.title()}</span>
+    `;
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (minimized) {
+        el.style.visibility = "";
+        focusWindow(id);
+      } else if (focusedWindowId === id) {
+        el.style.visibility = "hidden";
+        focusedWindowId = null;
+        updateWindowList();
+      } else {
+        focusWindow(id);
+      }
+    });
+    windowList.appendChild(item);
+  }
+}
+
+function makeNemoSideSection(title, items) {
+  const sec = document.createElement("div");
+  sec.className = "nemo-side-section";
+
+  const heading = document.createElement("button");
+  heading.type = "button";
+  heading.className = "nemo-side-heading";
+  heading.innerHTML = `<span class="nemo-tree-twist" aria-hidden="true">▾</span><span>${title}</span>`;
+  heading.addEventListener("click", (e) => {
+    e.stopPropagation();
+    sec.classList.toggle("collapsed");
+  });
+  sec.appendChild(heading);
+
+  const list = document.createElement("div");
+  list.className = "nemo-side-items";
+  for (const p of items) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "nemo-side-item" + (p.id === nemoPlace ? " active" : "");
     btn.innerHTML = `<img src="${p.icon}" alt="" draggable="false" /><span>${p.label}</span>`;
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
+      if (p.id === "network" || p.id === "recent") return;
       navigateNemo(p.id, true);
     });
-    placesSec.appendChild(btn);
+    list.appendChild(btn);
   }
-  nemoSidebar.appendChild(placesSec);
+  sec.appendChild(list);
+  return sec;
+}
 
-  const devices = document.createElement("div");
-  devices.className = "nemo-side-section";
-  devices.innerHTML = `
-    <div class="nemo-side-label">Devices</div>
-    <button type="button" class="nemo-side-item" data-place="computer">
-      <img src="assets/places/drive-harddisk.png" alt="" draggable="false" />
-      <span>File System</span>
-    </button>
-  `;
-  devices.querySelector("button").addEventListener("click", (e) => {
-    e.stopPropagation();
-    navigateNemo("computer", true);
-  });
-  nemoSidebar.appendChild(devices);
+function renderNemoSidebar() {
+  nemoSidebar.innerHTML = "";
+  nemoSidebar.appendChild(makeNemoSideSection("My Computer", NEMO_MY_COMPUTER));
+  nemoSidebar.appendChild(makeNemoSideSection("Network", NEMO_NETWORK));
 }
 
 function renderNemoContent(filter = "") {
@@ -744,12 +885,14 @@ function openNemo(place = "home") {
     nemoPlace = place;
   }
   updateNemoNav();
+  focusWindow("files");
 }
 
 function closeNemo() {
   nemoWindow.hidden = true;
   nemoWindow.style.visibility = "";
   nemoWindow.classList.remove("maximized");
+  if (focusedWindowId === "files") focusedWindowId = null;
   updateWindowList();
 }
 
@@ -774,9 +917,24 @@ function setNemoView(mode) {
 /* ---------- Volume ---------- */
 
 function updateVolumeFill() {
+  if (!volumeSlider) return;
   const pct = Number(volumeSlider.value);
-  volumePct.textContent = `${pct}%`;
-  volumeSlider.style.background = `linear-gradient(to right, var(--accent) ${pct}%, rgba(255,255,255,0.15) ${pct}%)`;
+  volumeSlider.style.setProperty("--fill", `${pct}%`);
+  if (volumePct) volumePct.textContent = `${pct}%`;
+  const icon = document.getElementById("sound-panel-icon");
+  const popIcon = soundPopover?.querySelector(".sound-icon");
+  const muted = pct === 0;
+  const src = muted
+    ? "assets/status/popover/audio-volume-muted.png"
+    : "assets/status/panel-sound.png";
+  if (icon) icon.src = muted ? src : "assets/status/panel-sound.png";
+  if (popIcon) popIcon.src = muted ? "assets/status/popover/audio-volume-muted.png" : "assets/status/popover/audio-volume-medium.png";
+}
+
+function updateBrightnessFill() {
+  if (!brightnessSlider) return;
+  const pct = Number(brightnessSlider.value);
+  brightnessSlider.style.setProperty("--fill", `${pct}%`);
 }
 
 /* ---------- Event wiring ---------- */
@@ -828,8 +986,57 @@ powerBtn.addEventListener("click", (e) => {
   togglePopover(powerPopover, powerBtn);
 });
 
-[calendarPopover, soundPopover, netPopover, powerPopover].forEach((el) => {
-  el.addEventListener("click", (e) => e.stopPropagation());
+localsendBtn?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  togglePopover(localsendPopover, localsendBtn);
+});
+
+bluetoothBtn?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  togglePopover(bluetoothPopover, bluetoothBtn);
+});
+
+document.getElementById("updates-btn")?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closeApplets();
+  // Preview: Update Manager would open — no full app window in mockup
+});
+
+[calendarPopover, soundPopover, netPopover, powerPopover, localsendPopover, bluetoothPopover]
+  .filter(Boolean)
+  .forEach((el) => {
+    el.addEventListener("click", (e) => e.stopPropagation());
+  });
+
+document.querySelectorAll(".batt-profile").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    document.querySelectorAll(".batt-profile").forEach((b) => {
+      b.classList.toggle("active", b === btn);
+      b.setAttribute("aria-checked", b === btn ? "true" : "false");
+    });
+  });
+});
+
+document.getElementById("net-wifi-toggle")?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const t = e.currentTarget;
+  const on = t.getAttribute("aria-checked") !== "true";
+  t.setAttribute("aria-checked", on ? "true" : "false");
+});
+
+document.querySelectorAll(".net-wifi-item:not(.net-wifi-more)").forEach((item) => {
+  item.addEventListener("click", (e) => {
+    e.stopPropagation();
+    document.querySelectorAll(".net-wifi-item").forEach((el) => {
+      el.classList.remove("active");
+      const radio = el.querySelector(".net-wifi-radio");
+      if (radio) radio.classList.add("empty");
+    });
+    item.classList.add("active");
+    const radio = item.querySelector(".net-wifi-radio");
+    if (radio) radio.classList.remove("empty");
+  });
 });
 
 calPrev.addEventListener("click", (e) => {
@@ -852,8 +1059,10 @@ calNext.addEventListener("click", (e) => {
   buildCalendar();
 });
 
-volumeSlider.addEventListener("input", updateVolumeFill);
+volumeSlider?.addEventListener("input", updateVolumeFill);
 updateVolumeFill();
+brightnessSlider?.addEventListener("input", updateBrightnessFill);
+updateBrightnessFill();
 
 // Panel launchers
 document.querySelectorAll(".panel-app[data-app]").forEach((item) => {
@@ -898,14 +1107,15 @@ nemoClose.addEventListener("click", (e) => {
   closeNemo();
 });
 
-nemoWindow.querySelector(".nemo-max")?.addEventListener("click", (e) => {
+document.getElementById("nemo-max")?.addEventListener("click", (e) => {
   e.stopPropagation();
   nemoWindow.classList.toggle("maximized");
 });
 
-nemoWindow.querySelector(".nemo-min")?.addEventListener("click", (e) => {
+document.getElementById("nemo-min")?.addEventListener("click", (e) => {
   e.stopPropagation();
   nemoWindow.style.visibility = "hidden";
+  if (focusedWindowId === "files") focusedWindowId = null;
   updateWindowList();
 });
 
@@ -1011,6 +1221,7 @@ document.addEventListener("keydown", (e) => {
 
 /* ---------- Init ---------- */
 
+renderMenuPlaces();
 renderFavorites();
 renderCategories();
 renderMenuApps();

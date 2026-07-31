@@ -1,0 +1,18 @@
+Currently displayed right-panel emblems
+========================================
+01-bluetooth	blueman-tray-symbolic	Bluetooth Enabled (blueman)
+  source: /usr/share/icons/hicolor/scalable/status/blueman-tray-symbolic.svg
+02-updates	mintupdate-updates-available-symbolic	Update Manager — 1 update available
+  source: /usr/share/icons/hicolor/scalable/status/mintupdate-updates-available-symbolic.svg
+03-system-reports	mintreport-symbolic	System Reports — attention needed
+  source: /usr/share/icons/hicolor/scalable/apps/mintreport-symbolic.svg
+04-localsend	org.localsend.localsend_app-tray	LocalSend tray
+  source: /var/lib/flatpak/exports/share/icons/hicolor/32x32/apps/org.localsend.localsend_app-tray.png
+05-favorites	xsi-user-favorites-symbolic	Favorites applet
+  source: /usr/share/icons/hicolor/scalable/actions/xsi-user-favorites-symbolic.svg
+06-network	xsi-network-wireless-signal-good-symbolic	Wi‑Fi connected, signal good (~71%)
+  source: /usr/share/icons/hicolor/scalable/actions/xsi-network-wireless-signal-good-symbolic.svg
+07-sound	xsi-audio-volume-medium-symbolic	Volume medium (~40%, not muted)
+  source: /usr/share/icons/hicolor/scalable/actions/xsi-audio-volume-medium-symbolic.svg
+08-battery	battery-full-charged-symbolic	Battery fully charged (100%, on AC)
+  source: /usr/share/icons/Mint-Y/status/symbolic/battery-full-charged-symbolic.svg
