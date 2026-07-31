@@ -1,4 +1,4 @@
-![Cinnamon Desktop Preview](docs/Screenshot%20From%202026-07-26%2014-15-05.png)
+![Cinnamon Desktop Preview](docs/Screenshot%20From%202026-08-01%2000-07-10.png)
 
 <div align="center">
 <a href="https://sudostation.github.io/Cinnamon-desktop-preview/">View interactive preview</a>
