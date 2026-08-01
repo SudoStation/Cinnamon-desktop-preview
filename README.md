@@ -12,3 +12,9 @@ Interactive browser mockup of the Cinnamon desktop (Mint-Y-Dark). Static HTML/CS
 
 1. Download the zip folder
 2. Open `index.html` in a browser.
+
+### Things to try
+
+- Open System Settings
+- Open Software Manager
+- Open Files (File Manager)

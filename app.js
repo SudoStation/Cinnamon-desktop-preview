@@ -1180,6 +1180,7 @@ document.getElementById("nemo-refresh")?.addEventListener("click", (e) => {
 
 // Click outside closes menus (not Nemo)
 document.addEventListener("click", () => {
+  if (typeof startOverlay !== "undefined" && startOverlay && !startOverlay.hidden) return;
   closeAll();
   document.querySelectorAll(".desk-icon").forEach((d) => d.classList.remove("selected"));
 });
@@ -1187,6 +1188,10 @@ document.addEventListener("click", () => {
 // Keyboard
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
+    if (typeof startOverlay !== "undefined" && startOverlay && !startOverlay.hidden) {
+      /* Keep overlay until they choose fullscreen or continue */
+      return;
+    }
     if (!appMenu.hidden) {
       closeMenu();
       return;
@@ -1218,6 +1223,47 @@ document.addEventListener("keydown", (e) => {
     toggleMenu();
   }
 });
+
+/* ---------- Start overlay / fullscreen ---------- */
+
+const startOverlay = document.getElementById("start-overlay");
+const startFullscreenBtn = document.getElementById("start-fullscreen-btn");
+const startSkipBtn = document.getElementById("start-skip-btn");
+
+function dismissStartOverlay() {
+  if (startOverlay) startOverlay.hidden = true;
+}
+
+async function enterFullscreenPreview() {
+  const target = document.documentElement;
+  try {
+    if (target.requestFullscreen) await target.requestFullscreen();
+    else if (target.webkitRequestFullscreen) await target.webkitRequestFullscreen();
+    else if (target.msRequestFullscreen) await target.msRequestFullscreen();
+  } catch {
+    /* Browser denied or unsupported — still enter the mockup */
+  }
+  dismissStartOverlay();
+}
+
+if (startFullscreenBtn) {
+  startFullscreenBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    enterFullscreenPreview();
+  });
+}
+
+if (startSkipBtn) {
+  startSkipBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dismissStartOverlay();
+  });
+}
+
+if (startOverlay) {
+  startOverlay.addEventListener("click", (e) => e.stopPropagation());
+  startOverlay.querySelector(".start-overlay-card")?.addEventListener("click", (e) => e.stopPropagation());
+}
 
 /* ---------- Init ---------- */
 

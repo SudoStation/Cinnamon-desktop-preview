@@ -11,6 +11,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <!-- Start overlay: things to try + fullscreen (must be user-activated) -->
+  <div class="start-overlay" id="start-overlay" role="dialog" aria-modal="true" aria-labelledby="start-overlay-title">
+    <div class="start-overlay-card">
+      <div class="start-overlay-brand">
+        <img src="docs/favicon/Cinnamon.png" alt="" class="start-overlay-logo" draggable="false" />
+        <div>
+          <h1 class="start-overlay-heading" id="start-overlay-title">Cinnamon Desktop Preview</h1>
+          <p class="start-overlay-sub">Mint-Y-Dark theme</p>
+        </div>
+      </div>
+
+      <h2 class="start-overlay-section">Things to try</h2>
+      <ul class="start-overlay-list">
+        <li>Open System Settings</li>
+        <li>Open Software Manager</li>
+        <li>Open Files (File Manager)</li>
+      </ul>
+
+      <button type="button" class="start-overlay-btn" id="start-fullscreen-btn">
+        Go fullscreen
+      </button>
+      <button type="button" class="start-overlay-skip" id="start-skip-btn">
+        Continue without fullscreen
+      </button>
+    </div>
+  </div>
+
   <div id="desktop" class="desktop" aria-label="Cinnamon desktop preview">
     <div class="wallpaper" role="presentation"></div>
 
